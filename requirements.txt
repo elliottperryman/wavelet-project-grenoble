@@ -31,6 +31,7 @@ gast==0.4.0
 google-auth==2.16.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
+graphviz==0.20.1
 grpcio==1.51.1
 h5py==3.7.0
 idna==3.4
@@ -60,6 +61,7 @@ kaggle==1.5.12
 keras==2.11.0
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.2
+keras-visualizer==2.4
 kiwisolver==1.4.4
 libclang==15.0.6.1
 Markdown==3.4.1
@@ -93,6 +95,7 @@ pure-eval==0.2.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
+pydot==1.4.2
 Pygments==2.14.0
 pyparsing==3.0.9
 pyrsistent==0.19.3
