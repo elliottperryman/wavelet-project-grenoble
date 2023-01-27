@@ -3,15 +3,6 @@
 
 # https://www.kaggle.com/datasets/saurabhshahane/barkvn50
 
-# In[ ]:
-
-
-
-
-
-# In[6]:
-
-
 import matplotlib.pyplot as plt
 from keras.layers import (
     Input, Dense, Conv2D, Flatten, Reshape, Dropout, 
@@ -23,21 +14,11 @@ from keras.utils.vis_utils import plot_model
 from keras.callbacks import ModelCheckpoint
 from tensorflow.keras.utils import image_dataset_from_directory
 
-
-# In[7]:
-
-
-train = image_dataset_from_directory('BarkVN-50/BarkVN-50_mendeley/', label_mode='categorical', seed=0, subset='training', validation_split=0.2)
-val = image_dataset_from_directory('BarkVN-50/BarkVN-50_mendeley/', label_mode='categorical', seed=0, subset='validation', validation_split=0.2)
-
-
-# In[8]:
+train = image_dataset_from_directory('./KTH-TIPS2-b', label_mode='categorical', seed=0, subset='training', validation_split=0.2)
+val = image_dataset_from_directory('./KTH-TIPS2-b', label_mode='categorical', seed=0, subset='validation', validation_split=0.2)
 
 
 checkpoint = ModelCheckpoint('./checkpoints/', save_best_only=True)
-
-
-# In[9]:
 
 
 def WaveletTransform(img):
@@ -48,9 +29,6 @@ def WaveletTransform(img):
     return low, high
 
 
-# In[10]:
-
-
 def conv_layer(_in, N):
     conv1 = Conv2D(N, kernel_size=(3,3), padding='same')(_in)
     norm1 = BatchNormalization()(conv1)
@@ -59,9 +37,6 @@ def conv_layer(_in, N):
     norm2 = BatchNormalization()(conv2)
     relu2 = Activation('relu')(norm2)
     return relu2
-
-
-# In[11]:
 
 
 def build_model(input_shape = (256, 256, 3), num_classes=50):
@@ -88,39 +63,19 @@ def build_model(input_shape = (256, 256, 3), num_classes=50):
     model = Model(inputs=_input, outputs=output)
     return model
 
+n = next(train.as_numpy_iterator())
+shape, num_classes = n[0].shape[1:], n[1].shape[-1]
+model = build_model(input_shape=shape, num_classes=num_classes)
 
-# In[12]:
-
-
-model = build_model()
-
-
-# In[13]:
-
-
-# model.summary()
-
-
-# In[14]:
-
+print(model.summary())
 
 # plot_model(model)
-
-
-# In[15]:
 
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 
-# In[ ]:
-
-
-hist = model.fit(train, validation_data=val, epochs=10, callbacks=[checkpoint])
-
-
-# In[ ]:
-
+hist = model.fit(train, validation_data=val, epochs=100, callbacks=[checkpoint])
 
 
 
